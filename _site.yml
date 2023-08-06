@@ -3,6 +3,7 @@ title: "Home"
 description: |
   Samuel Blay Nguah MD
 output_dir: "docs"
+theme: sbnguah-theme.css
 navbar:
   right:
     - text: "Home"
