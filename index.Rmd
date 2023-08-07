@@ -8,6 +8,8 @@ links:
     url: "https://twitter.com/sbnguah target = '_blank'"
   - label: <i class="fab fa-github"></i> GitHub
     url: "https://github.com/sbnguah target = '_blank'"
+  - label: <i class="fa-solid fa-book"></i> E-book
+    url: "https://medstatswithr.netlify.app/ target = '_blank'"
 output:
   postcards::trestles
 site: distill::distill_website

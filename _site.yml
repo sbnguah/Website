@@ -6,8 +6,14 @@ output_dir: "docs"
 theme: sbnguah-theme.css
 navbar:
   right:
-    - text: "Home"
-      href: index.html
-    - text: "About"
-      href: about.html
+    - text: "Blog"
+      href: blog.html
+    - text: "Talks"
+      href: talks.html
+    - text: "Resident's Zone"
+      menu:
+        - text: "Membership"
+          href: membership.html
+        - text: "Fellowship"
+          href: fellowship.html  
 output: distill::distill_article
