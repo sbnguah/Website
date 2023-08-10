@@ -21,7 +21,7 @@ This talk was given to the Faculty of Family Medicine of the Ghana College of Ph
 ----
 
 <p style="font-family: times, serif; font-size:20pt; font-style: italic; color: #461220;">
-    [**Presentation of Data and Statistical Tests**](https://fammedtalk1.netlify.app)
+    [**Presentation of Data and Statistical Tests**](https://gmj-stats.netlify.app)
 </p>
 
 **Date: August 1, 2023**
@@ -32,10 +32,10 @@ As part of the [Ghana Medical Journal](https://www.ajol.info/index.php/gmj) work
 ----
 
 <p style="font-family: times, serif; font-size:20pt; font-style: italic; color: #461220;">
-    [**Epidemiology & Biostatistics**](https://fammedtalk1.netlify.app)
+    [**Epidemiology & Biostatistics**](https://ch-epid-biostat.netlify.app)
 </p>
 
-**Date: April 28, 2023**
+**Date: August 7, 2023**
 
 As part of the Faculty of Paediatrics and Child Health of the Ghana College of P some basic epidemiological terminologies, evaluating a diagnostic test, effect, basic statistics, descriptive statistics and inferential statistics.  
 
