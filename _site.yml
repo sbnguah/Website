@@ -6,6 +6,8 @@ output_dir: "docs"
 theme: sbnguah-theme.css
 navbar:
   right:
+    - text: "R Data Viz"
+      href: rdataviz.html
     - text: "Blog"
       href: blog.html
     - text: "Talks"

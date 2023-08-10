@@ -1,0 +1,41 @@
+---
+title: "My Talks"
+description: |
+  This page is a compilation of some of the talks I have given recently. To view the slide deck, please click the headings above the description of the talk.
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+<p style="font-family: times, serif; font-size:20pt; font-style: italic; color: #461220;">
+    [**Overview of Clinical Research**](https://fammedtalk1.netlify.app)
+</p>
+
+**Date: April 28, 2023**
+
+This talk was given to the Faculty of Family Medicine of the Ghana College of Physicians and the West African College of Physicians and Surgeons. It spanned the steps involved in initiating clinical research, data collection and tools, data management, data cleaning, data analysis, and presentation of data. 
+
+----
+
+<p style="font-family: times, serif; font-size:20pt; font-style: italic; color: #461220;">
+    [**Presentation of Data and Statistical Tests**](https://fammedtalk1.netlify.app)
+</p>
+
+**Date: August 1, 2023**
+
+As part of the [Ghana Medical Journal](https://www.ajol.info/index.php/gmj) workshop, this talk was done. It went through how to present and review the statistical analysis and results sections of a journal article. 
+
+
+----
+
+<p style="font-family: times, serif; font-size:20pt; font-style: italic; color: #461220;">
+    [**Epidemiology & Biostatistics**](https://fammedtalk1.netlify.app)
+</p>
+
+**Date: April 28, 2023**
+
+As part of the Faculty of Paediatrics and Child Health of the Ghana College of P some basic epidemiological terminologies, evaluating a diagnostic test, effect, basic statistics, descriptive statistics and inferential statistics.  
+

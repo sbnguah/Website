@@ -1,0 +1,19 @@
+[
+  {
+    "path": "rdataviz/2023-08-10-ghanas-population-pyramid-2020/",
+    "title": "Ghana's Population Pyramid 2020",
+    "description": "This post illustrates R's  ability to construct a population pyramid.",
+    "author": [
+      {
+        "name": "Samuel Blay Nguah",
+        "url": {}
+      }
+    ],
+    "date": "2023-08-10",
+    "categories": [],
+    "contents": "\r\nWe begin by reading in a freely available data thatn contains the population structure of Ghana over the years. We are however only interested in that of the year 2020.\r\n\r\n\r\ndataK <-\r\n    readxl::read_xlsx(\r\n        \"ghana.xlsx\", \r\n        skip = 3, \r\n        sheet = \"2000 - 2020\", \r\n        range = \"A4:ARD262\")\r\n\r\n\r\nNext we manipulate and select the requisite data\r\n\r\n\r\ndf_for_pyramid <- \r\n    dataK %>% \r\n    select(ends_with(\"20\")) %>% \r\n    filter(BTOTL_2020==29340248) %>% \r\n    pivot_longer(cols = BTOTL_2020:F80PL_2020) %>% \r\n    filter(!name %in% c(\"BTOTL_2020\", \"MTOTL_2020\", \"FTOTL_2020\") ) %>% \r\n    filter(!str_detect(name, \"^B\")) %>% \r\n    mutate(sex = str_extract(name, \"^\\\\w\"),\r\n           agegrp = str_c(str_sub(name, 2, 3),\"-\", str_sub(name, 4,5)),\r\n           Population = ifelse(sex == \"F\", -value, value))\r\n\r\n\r\nThen we visualize a section of the data\r\n\r\n\r\ndf_for_pyramid %>% DT::datatable()\r\n\r\n\r\n\r\nFinally we use the ggplot2 package to plot the population pyramid\r\n\r\n\r\ndf_for_pyramid %>% \r\n    ggplot(aes(x = agegrp, y = Population, fill = sex)) + \r\n    geom_bar(stat = \"identity\") + \r\n    labs(title = \"Population Pyramid of Ghana for year 2020\",\r\n         x = \"Age Grouping in Years\", y = NULL, fill = \"Gender\") +\r\n    scale_y_continuous(\r\n        breaks = seq(-2000000, 2000000, 500000), \r\n        labels = paste0(as.character(c(seq(2.0, 0.5, -0.5), \r\n        seq(0, 2.0, 0.5))), \"m\")) + \r\n        coord_flip() +\r\n    scale_fill_brewer(\r\n        palette = \"Set1\", labels = c(\"Female\",\"Male\")) + \r\n    theme_classic()\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "preview": "rdataviz/2023-08-10-ghanas-population-pyramid-2020/ghanas-population-pyramid-2020_files/figure-html5/unnamed-chunk-4-1.png",
+    "last_modified": "2023-08-10T12:43:56+00:00",
+    "input_file": {}
+  }
+]

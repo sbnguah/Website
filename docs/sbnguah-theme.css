@@ -84,3 +84,9 @@ h1 {
     font-family: "Libre Baskerville";
     font-size: 35px;
 }
+
+.d-article h2 {
+  --text-color:       #461220;
+  --text-size:        20px; 
+  --font-weight:      100;
+}

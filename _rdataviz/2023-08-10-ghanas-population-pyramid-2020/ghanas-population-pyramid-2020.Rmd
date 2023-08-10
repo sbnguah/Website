@@ -1,0 +1,70 @@
+---
+title: "Ghana's Population Pyramid 2020"
+description: |
+  This post illustrates R's  ability to construct a population pyramid.  
+author:
+  - name: Samuel Blay Nguah
+date: 2023-08-10
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+```
+
+We begin by reading in a freely available data thatn contains the population structure of Ghana over the years. We are however only interested in that of the year 2020. 
+
+```{r echo=T}
+dataK <-
+    readxl::read_xlsx(
+        "ghana.xlsx", 
+        skip = 3, 
+        sheet = "2000 - 2020", 
+        range = "A4:ARD262")
+```
+
+Next we manipulate and select the requisite data
+
+```{r echo=T}
+df_for_pyramid <- 
+    dataK %>% 
+    select(ends_with("20")) %>% 
+    filter(BTOTL_2020==29340248) %>% 
+    pivot_longer(cols = BTOTL_2020:F80PL_2020) %>% 
+    filter(!name %in% c("BTOTL_2020", "MTOTL_2020", "FTOTL_2020") ) %>% 
+    filter(!str_detect(name, "^B")) %>% 
+    mutate(sex = str_extract(name, "^\\w"),
+           agegrp = str_c(str_sub(name, 2, 3),"-", str_sub(name, 4,5)),
+           Population = ifelse(sex == "F", -value, value))
+```
+
+Then we visualize a section of the data
+
+```{r echo = T}
+df_for_pyramid %>% DT::datatable()
+```
+
+Finally we use the `ggplot2` package to plot the population pyramid
+
+```{r echo=T}
+df_for_pyramid %>% 
+    ggplot(aes(x = agegrp, y = Population, fill = sex)) + 
+    geom_bar(stat = "identity") + 
+    labs(title = "Population Pyramid of Ghana for year 2020",
+         x = "Age Grouping in Years", y = NULL, fill = "Gender") +
+    scale_y_continuous(
+        breaks = seq(-2000000, 2000000, 500000), 
+        labels = paste0(as.character(c(seq(2.0, 0.5, -0.5), 
+        seq(0, 2.0, 0.5))), "m")) + 
+        coord_flip() +
+    scale_fill_brewer(
+        palette = "Set1", labels = c("Female","Male")) + 
+    theme_classic()
+```
+
+
+

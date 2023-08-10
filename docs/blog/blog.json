@@ -1,0 +1,19 @@
+[
+  {
+    "path": "blog/2023-08-08-my-first-post/",
+    "title": "My first post",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Samuel Blay Nguah",
+        "url": {}
+      }
+    ],
+    "date": "2023-08-08",
+    "categories": [],
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "preview": "blog/2023-08-08-my-first-post/my-first-post_files/figure-html5/unnamed-chunk-1-1.png",
+    "last_modified": "2023-08-08T10:07:24+00:00",
+    "input_file": {}
+  }
+]
