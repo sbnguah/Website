@@ -1,0 +1,78 @@
+---
+title: "Inter-Rater Agreement"
+description: |
+  This post demonstrates how agreement between two raters can be analysed using the  Single Score Intraclass Correlation Coefficient and the Blad-And-Altmam plot.
+author:
+  - name: Samuel Blay Nguah
+date: 2023-08-13
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+```
+
+We begin by importing the data and visualizing it
+
+```{r message=F}
+df_sonos <- read_delim("C:\\Dataset\\sonos.txt")
+df_sonos %>% summarytools::dfSummary(graph.col = F)
+```
+
+### Intraclass Correlation Coefficient 
+This is a measure of how the two measures correlate with the various accepted categorizations:
+- Less than 0.40 — Poor.
+- Between 0.40 and 0.59 — Fair.
+- Between 0.60 and 0.74 — Good.
+- Between 0.75 and 1.00 — Excellent.
+
+```{r}
+df_sonos %>% 
+    select(starts_with("sono")) %>% 
+    irr::icc(model = "twoway", type = "agreement", unit = "single")
+```
+
+ICC is rather low. 
+
+### Bland-And_Altman's plot
+
+Next we draw a Bland-And-Altmans plot
+
+```{r}
+df_sonos <-
+    df_sonos %>% 
+    na.omit()
+
+bias <- with(df_sonos, (sono1-sono2)) %>% mean()
+sd1 <- with(df_sonos, (sono1-sono2)) %>% sd()
+ula <- bias + 1.96*sd1
+lla <- ul <- bias - 1.96*sd1
+
+df_sonos %>% 
+    mutate(mean.2 = (sono1+sono2)/2, diff2 = sono1-sono2) %>% 
+    ggplot(aes(y = diff2, x = mean.2)) +
+    geom_point() +
+    geom_hline(yintercept = 0)+
+    geom_hline(yintercept = c(bias,ula, lla), color = "red", linetype='dashed')+
+    labs(title = "Bland and Altman's plot of measurements by two sonographers")+
+    annotate(geom="text", x = 1.83, y = bias+0.07, label = "Mean (0.046)", col = "red")+
+    annotate(geom="text", x = 1.83, y = lla+0.07, label = "-1.96SD (-0.405)", col = "red")+
+    annotate(geom="text", x = 1.83, y = ula+0.07, label = "+1.96SD (0.497)", col = "red",)+
+    scale_y_continuous(
+        name = "Difference between Sonographer 1 and 2",
+        limits = c(-1.2,1.2)
+    ) +
+    scale_x_continuous(
+        name = "Average of measurement by sonographer 1 and 2"
+    ) +
+    theme_bw() +
+    theme(
+        panel.grid = element_blank(),
+        text = element_text(family = "serif", size = 12)
+    )
+```
+
