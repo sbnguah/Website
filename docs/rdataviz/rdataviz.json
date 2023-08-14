@@ -1,5 +1,39 @@
 [
   {
+    "path": "rdataviz/2023-08-14-comparative-follow-up-plot/",
+    "title": "Rainfall pattern in Kumasi, Ghana",
+    "description": "This post illustrates R's ability to draw a follow-up plot, isolating one period so it can be compared to the other.",
+    "author": [
+      {
+        "name": "Samuel Blay Nguah",
+        "url": {}
+      }
+    ],
+    "date": "2023-08-14",
+    "categories": [],
+    "contents": "\r\n\r\n\r\ndataD <- \r\n    readxl::read_excel(\"C:\\\\Dataset\\\\rainfall.xlsx\")\r\n\r\nthe_year <- 2001\r\ndataD %>% \r\n    janitor::clean_names() %>% \r\n    rename(date_1 = time) %>% \r\n    arrange(date_1) %>% \r\n    mutate(year_1 = lubridate::year(date_1),\r\n           day = lubridate::day(date_1), \r\n           mth = lubridate::month(date_1),\r\n           the_year = year_1 == the_year) %>%\r\n    group_by(year_1) %>% \r\n    mutate(cum_rainfall = cumsum(rainfall)) %>% \r\n    ungroup() %>% \r\n    mutate(\r\n        new_date = lubridate::ymd(str_glue(\"2000-{mth}-{day}\"))) %>% \r\n    ggplot(aes(x = new_date, y = cum_rainfall, \r\n               group = year_1)) +\r\n    geom_line(aes(col = the_year),linewidth = 0.8) +\r\n    labs(y = \"cumulative Rainfall (mm)\", \r\n         title = \"Cumulative rainfall pattern in Kumasi, Ghana (2000 - 2004)\")+\r\n    scale_x_date(name = NULL,date_breaks = \"1 month\",date_labels = \"%b\") +\r\n    scale_color_manual(name = \"Year\", \r\n                       labels = c(\"Others\", the_year), \r\n                       values = c(\"grey\",\"red\"))+\r\n    scale_size_manual(breaks = c(F,T), values = c(0.5,0.7), guide = \"none\")+\r\n    scale_y_continuous(breaks = seq(0,1500, 250), expand = c(0,50)) +\r\n    theme_classic()\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "preview": "rdataviz/2023-08-14-comparative-follow-up-plot/comparative-follow-up-plot_files/figure-html5/unnamed-chunk-1-1.png",
+    "last_modified": "2023-08-14T09:48:36+00:00",
+    "input_file": {}
+  },
+  {
+    "path": "rdataviz/2023-08-13-histogram-with-normal-curve/",
+    "title": "Histogram with normal curve",
+    "description": "This is a short description of the codes needed to draw a histogram with the density distribution.",
+    "author": [
+      {
+        "name": "Samuel Blay Nguah",
+        "url": {}
+      }
+    ],
+    "date": "2023-08-13",
+    "categories": [],
+    "contents": "\r\nAn example plotting of histogram with normal density curve\r\n\r\n\r\nset.seed(123)\r\n\r\ndataF <- data.frame(hb2 = rnorm(500, mean = 25, sd = 5))\r\n\r\ndataF%>% \r\n    ggplot(aes(x = hb2))+\r\n    geom_histogram(\r\n        aes(y = after_stat(density)), bins=10, fill = \"snow\", col = \"red\") +\r\n    stat_function(\r\n        fun = dnorm, \r\n        args = list(mean = mean(dataF$hb2, na.rm=T), \r\n                    sd = sd(dataF$hb2)), col = \"blue\",\r\n                    linewidth = 1.5)+\r\n    theme_bw()\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "preview": "rdataviz/2023-08-13-histogram-with-normal-curve/histogram-with-normal-curve_files/figure-html5/unnamed-chunk-1-1.png",
+    "last_modified": "2023-08-13T21:47:30+00:00",
+    "input_file": {}
+  },
+  {
     "path": "rdataviz/2023-08-10-ghanas-population-pyramid-2020/",
     "title": "Ghana's Population Pyramid 2020",
     "description": "A population pyramid, age structure diagram or age-sex pyramid is an illustrative graph that shows the relationship between sex and age distribution of a specified population. The shape describes the population structure, often differentiating between developed and developing countries. This post illustrates R's ability to construct a population pyramid.",
@@ -13,7 +47,7 @@
     "categories": [],
     "contents": "\r\nWe begin by reading in a freely available data thatn contains the population structure of Ghana over the years. We are however only interested in that of the year 2020.\r\n\r\n\r\ndataK <-\r\n    readxl::read_xlsx(\r\n        \"ghana.xlsx\", \r\n        sheet = \"2000 - 2020\")\r\n\r\n\r\nNext we manipulate and select the requisite data\r\n\r\n\r\ndf_for_pyramid <- \r\n    dataK %>% \r\n    select(ends_with(\"20\")) %>% \r\n    filter(BTOTL_2020==29340248) %>% \r\n    pivot_longer(cols = BTOTL_2020:F80PL_2020) %>% \r\n    filter(!name %in% c(\"BTOTL_2020\", \"MTOTL_2020\", \"FTOTL_2020\") ) %>% \r\n    filter(!str_detect(name, \"^B\")) %>% \r\n    mutate(sex = str_extract(name, \"^\\\\w\"),\r\n           agegrp = str_c(str_sub(name, 2, 3),\"-\", str_sub(name, 4,5)),\r\n           Population = ifelse(sex == \"F\", -value, value))\r\n\r\n\r\nThen we visualize a section of the data\r\n\r\n\r\ndf_for_pyramid %>% head()\r\n\r\n# A tibble: 6 × 5\r\n  name         value sex   agegrp Population\r\n  <chr>        <dbl> <chr> <chr>       <dbl>\r\n1 M0004_2020 2033091 M     00-04     2033091\r\n2 M0509_2020 1841648 M     05-09     1841648\r\n3 M1014_2020 1650193 M     10-14     1650193\r\n4 M1519_2020 1449384 M     15-19     1449384\r\n5 M2024_2020 1268097 M     20-24     1268097\r\n6 M2529_2020 1104158 M     25-29     1104158\r\n\r\nFinally we use the ggplot2 package to plot the population pyramid\r\n\r\n\r\ndf_for_pyramid %>% \r\n    ggplot(aes(x = agegrp, y = Population, fill = sex)) + \r\n    geom_bar(stat = \"identity\") + \r\n    labs(title = \"Population Pyramid of Ghana for year 2020\",\r\n         x = \"Age Grouping in Years\", y = NULL, fill = \"Gender\") +\r\n    scale_y_continuous(\r\n        breaks = seq(-2000000, 2000000, 500000), \r\n        labels = paste0(as.character(c(seq(2.0, 0.5, -0.5), \r\n        seq(0, 2.0, 0.5))), \"m\")) + \r\n        coord_flip() +\r\n    scale_fill_brewer(\r\n        palette = \"Set1\", labels = c(\"Female\",\"Male\")) + \r\n    theme_classic()\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
     "preview": "rdataviz/2023-08-10-ghanas-population-pyramid-2020/ghanas-population-pyramid-2020_files/figure-html5/unnamed-chunk-4-1.png",
-    "last_modified": "2023-08-13T12:49:44+00:00",
+    "last_modified": "2023-08-13T21:05:15+00:00",
     "input_file": {}
   }
 ]
