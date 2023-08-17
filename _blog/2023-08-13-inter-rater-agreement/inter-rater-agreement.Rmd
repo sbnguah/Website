@@ -1,7 +1,7 @@
 ---
 title: "Inter-Rater Agreement"
 description: |
-  This post demonstrates how agreement between two raters can be analysed using the  Single Score Intraclass Correlation Coefficient and the Blad-And-Altmam plot.
+  This post demonstrates how the agreement between two raters can be analysed using the  Single Score Intraclass Correlation Coefficient and the Blad-And-Altmam plot.
 author:
   - name: Samuel Blay Nguah
 date: 2023-08-13
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 ```
 
-We begin by importing the data and visualizing it
+We begin by importing the data and visualizing
 
 ```{r message=F}
 df_sonos <- read_delim("C:\\Dataset\\sonos.txt")
@@ -40,7 +40,7 @@ ICC is rather low.
 
 ### Bland-And_Altman's plot
 
-Next we draw a Bland-And-Altmans plot
+Next, we draw a Bland-And-Altmans plot
 
 ```{r}
 df_sonos <-

@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 **Date: April 28, 2023**
 
-This talk was given to the Faculty of Family Medicine of the Ghana College of Physicians and the West African College of Physicians and Surgeons. It spanned the steps involved in initiating clinical research, data collection and tools, data management, data cleaning, data analysis, and presentation of data. 
+This talk was given to the Faculty of Family Medicine of the Ghana College and the West African College of Physicians and Surgeons. It spanned the steps involved in initiating clinical research, data collection and tools, data management, data cleaning, data analysis, and presentation of data. 
 
 ***
 
@@ -37,5 +37,5 @@ As part of the [Ghana Medical Journal](https://www.ajol.info/index.php/gmj) work
 
 **Date: August 7, 2023**
 
-As part of the Faculty of Paediatrics and Child Health of the Ghana College of P some basic epidemiological terminologies, evaluating a diagnostic test, effect, basic statistics, descriptive statistics and inferential statistics.  
+As part of the Faculty of Paediatrics and Child Health of the Ghana College of Physicians and Surgeons, some basic epidemiological terminologies, evaluating diagnostic tests, effects, basic statistics, descriptive statistics and inferential statistics.  
 

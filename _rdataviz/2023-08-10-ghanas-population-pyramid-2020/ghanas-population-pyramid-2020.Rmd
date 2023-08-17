@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 ```
 
-We begin by reading in a freely available data thatn contains the population structure of Ghana over the years. We are however only interested in that of the year 2020. 
+We begin by reading freely available data that contains the population structure of Ghana. We are however only interested in that of the year 2020. 
 
 ```{r echo=T}
 dataK <-
@@ -25,7 +25,7 @@ dataK <-
         sheet = "2000 - 2020")
 ```
 
-Next we manipulate and select the requisite data
+Next, we manipulate and select the requisite data
 
 ```{r echo=T}
 df_for_pyramid <- 
@@ -46,7 +46,7 @@ Then we visualize a section of the data
 df_for_pyramid %>% head()
 ```
 
-Finally we use the `ggplot2` package to plot the population pyramid
+Finally, we use the `ggplot2` package to plot the population pyramid.
 
 ```{r echo=T}
 df_for_pyramid %>% 

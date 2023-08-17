@@ -1,5 +1,5 @@
 ---
-title: "Taking it a further"
+title: "Taking it further"
 description: |
   A short description of the post.
 author: Samuel Blay Nguah
