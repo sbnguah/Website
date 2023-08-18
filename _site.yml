@@ -12,6 +12,8 @@ navbar:
       href: blog.html
     - text: "Talks"
       href: talks.html
+    - text: "Projects"
+      href: projects.html
     - text: "Resident's Zone"
       menu:
         - text: "Membership"

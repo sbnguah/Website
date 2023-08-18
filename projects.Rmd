@@ -1,0 +1,24 @@
+---
+title: "Ongoing Projects"
+description: |
+  This is a compilation of projects I am currently involved in
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+### PINGS-2
+
+### Pediatric echocardiogram in Kumasi
+
+### SMAART
+
+### SPARCo
+
+
+
+
+
