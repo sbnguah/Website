@@ -19,5 +19,7 @@ navbar:
         - text: "Membership"
           href: membership.html
         - text: "Fellowship"
-          href: fellowship.html  
+          href: fellowship.html 
+    - icon: fab fa-github
+      href: https://github.com/sbnguah/Website
 output: distill::distill_article
