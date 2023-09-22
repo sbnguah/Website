@@ -1,0 +1,94 @@
+---
+title: "Newborn survival"
+description: |
+  Determining the survival of newborns after birth is essential for not only the pediatricians but also obstetricians. This post outlines the survival probability of newborns admitted to a Mother and Babies Unit of a tertiary hospital in Ghana.   
+author:
+  - name: Samuel Blay Nguah
+    url: https://sbnguah.netlify.app/
+date: 2023-09-22
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(magrittr)
+```
+
+### Background 
+Predicting the survival of newborns is crucial in the clinical decision making especially during deliveries. For instance, the probability of survival of a child born at any gestational age, weight, and a specific locality should be readily known to make clinical judgments and for counselling prospective mothers.  
+
+### Objective
+This post analyses and outlines the probability of survival for newborns admitted to a tertiary hospital in Ghana. 
+
+### Data
+Data for all newborns admitted to the hospital's Mother and Baby Unit was recorded from 2013 to 2015. The probability of survival with the 95% confidence interval are as displayed below for males and female seperately.
+
+```{r}
+df_newborns <-
+    read.delim("C:\\Dataset\\newborns.txt") %>% 
+    select(wt, outcome, sex) %>% 
+    filter(outcome %in% c("Died","Discharged"), sex != "Missing", wt > 0.9 & wt < 9) %>% 
+    mutate(across(c(outcome, sex), ~factor(.)),
+           wt = round(wt, 1))
+```
+
+
+```{r}
+glm1 <- 
+    df_newborns %>% 
+    glm(outcome ~ wt*sex, family = "binomial", data = .)
+```
+
+```{r}
+xx <- 
+    glm1 %>% 
+    ggeffects::ggpredict(terms = c("wt[all]", "sex"))
+
+data.frame(
+    weight = xx$x, 
+    prob = round(xx$predicted*100, 1), 
+    conf_low = round(xx$conf.low*100, 1), 
+    conf_high = round(xx$conf.high*100,1), 
+    sex = xx$group) %>% 
+    pivot_wider(
+        id_cols = weight, 
+        names_from = sex, 
+        values_from = c(prob, conf_low, conf_high)) %>%
+    mutate(
+        `Birth Weight (kgs)` = sprintf(fmt = "%.1f", weight),
+        Female = paste0(
+            sprintf(fmt = "%.1f", prob_Female), " [", 
+            sprintf(fmt = "%.1f", conf_low_Female), " - ", 
+            sprintf(fmt = "%.1f", conf_high_Female), "]"),
+        Male = paste0(
+            sprintf(fmt = "%.1f", prob_Male), " [", 
+            sprintf(fmt = "%.1f", conf_low_Male), " - ", 
+            sprintf(fmt = "%.1f", conf_high_Male), "]")) %>% 
+    select(`Birth Weight (kgs)`, Female, Male) %>% 
+    as_tibble() %>% 
+    DT::datatable(
+        rownames = FALSE)
+    ```
+
+This is further illustrated graphically as below
+
+```{r}
+glm1 %>% 
+    ggeffects::ggpredict(terms = c("wt[all]", "sex")) %>% 
+    plot() +
+    labs(title = "Percentage survival for inborn newborns at a teaching hospital in Ghana",
+         x = "Weight in kilograms",
+         y = "Probability of survival",
+         color = "Sex")+
+    theme_bw()
+    
+```
+
+
+
+
+
