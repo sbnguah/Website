@@ -74,7 +74,7 @@ data.frame(
         rownames = FALSE)
     ```
 
-This is further illustrated graphically as below
+This is also illustrated graphically below
 
 ```{r}
 glm1 %>% 
