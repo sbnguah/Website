@@ -2,7 +2,7 @@
   {
     "path": "blog/2023-09-22-newbornsurvival/",
     "title": "Newborn survival",
-    "description": "Determining the survival of newborns after birth is essential for not only the pediatricians but also obstetricians. This post outlines the survival probability of newborns admitted to a Mother and Babies Unit of a tertiary hospital in Ghana.",
+    "description": "Determining the survival of newborns after birth is essential for not only pediatricians but also obstetricians. This post outlines the survival probability of newborns admitted to a Mother and Babies Unit of a tertiary hospital in Ghana.",
     "author": [
       {
         "name": "Samuel Blay Nguah",
@@ -11,9 +11,9 @@
     ],
     "date": "2023-09-22",
     "categories": [],
-    "contents": "\r\nBackground\r\nPredicting the survival of newborns is crucial in the clinical decision making especially during deliveries. For instance, the probability of survival of a child born at any gestational age, weight, and a specific locality should be readily known to make clinical judgments and for counselling prospective mothers.\r\nObjective\r\nThis post analyses and outlines the probability of survival for newborns admitted to a tertiary hospital in Ghana.\r\nData\r\nData for all newborns admitted to the hospital’s Mother and Baby Unit was recorded from 2013 to 2015. The probability of survival with the 95% confidence interval are as displayed below for males and female seperately.\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nThis is further illustrated graphically as below\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "contents": "\r\nBackground\r\nPredicting the survival of newborns is crucial in clinical decision making especially prior to deliveries. For instance, the probability of survival of a child born at any gestational age, weight, and a specific locality should be readily known to make clinical judgments and for counselling prospective mothers.\r\nObjective\r\nThis post analyses and outlines the probability of survival for newborns admitted to a tertiary hospital in Ghana.\r\nData\r\nData for all newborns admitted to the hospital’s Mother and Baby Unit was recorded from 2013 to 2015. The probability of survival with the 95% confidence interval are as displayed below for males and female separately.\r\n\r\n\r\n\r\n\r\n\r\n\r\nSurvival by birth weight\r\n\r\n\r\n\r\nThis is also illustrated graphically below\r\n\r\n\r\n\r\nSurvival by gestational age\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nThis is also illustrated graphically below\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
     "preview": "blog/2023-09-22-newbornsurvival/newbornsurvival_files/figure-html5/unnamed-chunk-4-1.png",
-    "last_modified": "2023-09-22T15:49:49+00:00",
+    "last_modified": "2023-09-24T19:44:41+00:00",
     "input_file": {}
   },
   {
