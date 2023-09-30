@@ -1,7 +1,7 @@
 ---
 title: "Newborn survival"
 description: |
-  Determining the survival of newborns after birth is essential for not only pediatricians but also obstetricians. This post outlines the survival probability of newborns admitted to a Mother and Babies Unit of a tertiary hospital in Ghana.   
+  Determining the survival of newborns after birth is essential for not only pediatricians but also obstetricians. This post outlines the survival probability of newborns born and admitted to the Mother and Babies Unit of a tertiary hospital in Ghana.   
 author:
   - name: Samuel Blay Nguah
     url: https://sbnguah.netlify.app/
@@ -16,24 +16,31 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(magrittr)
+rm(list = ls())
 ```
 
 ### Background 
-Predicting the survival of newborns is crucial in clinical decision making especially prior to deliveries. For instance, the probability of survival of a child born at any gestational age, weight, and a specific locality should be readily known to make clinical judgments and for counselling prospective mothers.  
+Predicting the survival of newborns is crucial in clinical decision making, especially prior to deliveries. For instance, the probability of survival of a child born at any gestational age, weight, and a specific locality should be readily known to facilitate clinical judgments and counselling prospective parents.  
 
 ### Objective
-This post analyses and outlines the probability of survival for newborns admitted to a tertiary hospital in Ghana. 
+This post analyses and outlines the probability of survival until discharge of newborns admitted to a tertiary hospital in Ghana. 
 
 ### Data
-Data for all newborns admitted to the hospital's Mother and Baby Unit was recorded from 2013 to 2015. The probability of survival with the 95% confidence interval are as displayed below for males and female separately.
+Data for all newborns admitted to the hospital's Mother and Baby Unit was recorded from the year 2012 through 2015. The probability of survival with the 95% confidence interval is as displayed below for males and female separately.
 
 ```{r}
 df_newborns <-
-    read.delim("C:\\Dataset\\newborns.txt") %>% 
-    select(wt, outcome, sex) %>% 
-    filter(outcome %in% c("Died","Discharged"), sex != "Missing", wt > 0.9 & wt < 9) %>% 
-    mutate(across(c(outcome, sex), ~factor(.)),
-           wt = round(wt, 1))
+    readxl::read_xlsx("C:\\Dataset\\mbu2.xlsx") %>% 
+    select(wt, age, sex, place, outcome, gestage) %>% 
+    filter(place == "KATH" & age < 3) %>% 
+    drop_na(gestage) %>% 
+    select(-place, -age) %>% 
+    filter(
+        gestage >=25 & gestage < 49 & wt > 0.6 & wt <=5 & outcome != "Missing" & 
+            sex != "Missing") %>%
+    mutate(
+        sex = factor(sex, levels = c("Female", "Male")),
+        outcome = factor(outcome, levels = c("Died", "Discharged")))
 ```
 
 
@@ -43,7 +50,8 @@ glm1 <-
     glm(outcome ~ wt*sex, family = "binomial", data = .)
 ```
 
-#### Survival by birth weight
+#### Survival by birth weight and sex 
+
 
 ```{r}
 xx <- 
@@ -76,31 +84,21 @@ data.frame(
         rownames = FALSE)
 ```
 
-This is also illustrated graphically below
+
 
 ```{r}
 glm1 %>% 
     ggeffects::ggpredict(terms = c("wt[all]", "sex")) %>% 
     plot() +
-    labs(title = "Percentage survival for inborn newborns at a teaching hospital in Ghana",
-         x = "Weight in kilograms",
+    labs(title = "Percentage survival by sex",
+         x = "Birth weight in kilograms",
          y = "Probability of survival",
          color = "Sex")+
     theme_bw()
     
 ```
 
-#### Survival by gestational age
-
-```{r}
-df_newborns <-
-    read.delim("C:\\Dataset\\newborns 2.txt") %>% 
-    select(gestage, outcome, sex) %>% arrange(gestage) %>% 
-    filter(outcome %in% c("Died","Discharged"), sex != "Missing", gestage > 24) %>% 
-    mutate(across(c(outcome, sex), ~factor(.)),
-           gestage = round(gestage, 1))
-```
-
+#### Survival by gestational age and sex
 
 ```{r}
 glm1 <- 
@@ -146,10 +144,146 @@ This is also illustrated graphically below
 glm1 %>% 
     ggeffects::ggpredict(terms = c("gestage[all]", "sex")) %>% 
     plot() +
-    labs(title = "Percentage survival for inborn newborns at a teaching hospital in Ghana",
+    labs(title = "Percentage survival by gestational age in weeks",
          x = "Gestational Age (weeks)",
          y = "Probability of survival",
          color = "Sex")+
     theme_bw()
     
 ```
+
+
+#### Survival by gestational age and birth weight simultaneously
+
+Since both gestational age and birth weight have significant effect, we combine 
+the two and generate a composite table of percentage survival for males first 
+and then females.
+
+```{r}
+df_males <- df_newborns %>% filter(sex == "Male")
+df_females <- df_newborns %>% filter(sex == "Female")
+```
+
+
+```{r}
+glm_3 <- 
+    glm(outcome ~ wt*gestage, data = df_males, family = binomial)
+```
+
+```{r}
+temp <- 
+    glm_3 %>% 
+    ggeffects::ggpredict(terms = c("wt[all]", "gestage[all]")) 
+```
+
+```{r}
+tbl_1 <- 
+    data.frame(
+    wgt = temp[[1]],
+    survival = round(temp[[2]]*100,1),
+    gest_age = temp[[6]]
+    ) %>% 
+    filter(
+        (gest_age == 25 & (wgt >= 0.6 & wgt <= 1)) | 
+        (gest_age == 26 & (wgt >= 0.6 & wgt <= 1.3)) |
+        (gest_age == 27 & (wgt >= 0.6 & wgt <= 1.6)) |
+        (gest_age == 28 & (wgt >= 0.7 & wgt <= 1.8)) |
+        (gest_age == 29 & (wgt >= 0.7 & wgt <= 1.9)) |
+        (gest_age == 30 & (wgt >= 0.7 & wgt <= 2)) |
+        (gest_age == 31 & (wgt >= 0.8 & wgt <= 2.3)) |
+        (gest_age == 32 & (wgt >= 0.8 & wgt <= 2.4)) |
+        (gest_age == 33 & (wgt >= 0.8 & wgt <= 2.6)) |
+        (gest_age == 34 & (wgt >= 1.0 & wgt <= 2.9)) |
+        (gest_age == 35 & (wgt >= 1.1 & wgt <= 3.2)) |
+        (gest_age == 36 & (wgt >= 1.2 & wgt <= 4.0)) |
+        (gest_age == 37 & (wgt >= 1.2 & wgt <= 4.0)) |
+        (gest_age == 38 & (wgt >= 1.5 & wgt <= 5.0)) |
+        (gest_age == 39 & (wgt >= 1.5 & wgt <= 5.0)) |
+        (gest_age == 40 & (wgt >= 1.5 & wgt <= 5.0)) |
+        (gest_age == 41 & (wgt >= 1.6 & wgt <= 5.0)) |
+        (gest_age == 42 & (wgt >= 1.7 & wgt <= 5.0)) |
+        (gest_age == 43 & (wgt >= 1.8 & wgt <= 5.0)) |
+        (gest_age == 44 & (wgt >= 1.8 & wgt <= 5.0)) |
+        (gest_age == 45 & (wgt >= 1.8 & wgt <= 5.0)) |
+        (gest_age == 46 & (wgt >= 1.8 & wgt <= 5.0)) 
+    ) %>% 
+    arrange(gest_age, wgt)
+```
+
+
+#### Males
+
+```{r}
+tbl_1 %>% 
+    pivot_wider(names_from = gest_age, values_from = survival
+    ) %>% 
+    gt::gt(rowname_col = "wgt") %>% 
+    gt::sub_missing(columns = everything(), rows = everything(), missing_text = ""
+    ) %>% 
+    gt::tab_header(
+        title = gt::md("**Estimated Gestational Age (weeks)**")) %>% 
+     gt::tab_stubhead(gt::md("**Weight (kgs)**"))  %>% 
+    gt::opt_stylize(style = 2)
+```
+
+
+```{r}
+glm_3 <- 
+    glm(outcome ~ wt*gestage, data = df_females, family = binomial)
+```
+
+```{r}
+temp <- 
+    glm_3 %>% 
+    ggeffects::ggpredict(terms = c("wt[all]", "gestage[all]")) 
+```
+
+```{r}
+tbl_1 <- 
+    data.frame(
+    wgt = temp[[1]],
+    survival = round(temp[[2]]*100,1),
+    gest_age = temp[[6]]
+    ) %>% 
+    filter(
+        (gest_age == 25 & (wgt >= 0.6 & wgt <= 1)) | 
+        (gest_age == 26 & (wgt >= 0.6 & wgt <= 1.3)) |
+        (gest_age == 27 & (wgt >= 0.6 & wgt <= 1.6)) |
+        (gest_age == 28 & (wgt >= 0.7 & wgt <= 1.8)) |
+        (gest_age == 29 & (wgt >= 0.7 & wgt <= 1.9)) |
+        (gest_age == 30 & (wgt >= 0.7 & wgt <= 2)) |
+        (gest_age == 31 & (wgt >= 0.8 & wgt <= 2.3)) |
+        (gest_age == 32 & (wgt >= 0.8 & wgt <= 2.4)) |
+        (gest_age == 33 & (wgt >= 0.8 & wgt <= 2.6)) |
+        (gest_age == 34 & (wgt >= 1.0 & wgt <= 2.9)) |
+        (gest_age == 35 & (wgt >= 1.1 & wgt <= 3.2)) |
+        (gest_age == 36 & (wgt >= 1.2 & wgt <= 4.0)) |
+        (gest_age == 37 & (wgt >= 1.2 & wgt <= 4.0)) |
+        (gest_age == 38 & (wgt >= 1.5 & wgt <= 5.0)) |
+        (gest_age == 39 & (wgt >= 1.5 & wgt <= 5.0)) |
+        (gest_age == 40 & (wgt >= 1.5 & wgt <= 5.0)) |
+        (gest_age == 41 & (wgt >= 1.6 & wgt <= 5.0)) |
+        (gest_age == 42 & (wgt >= 1.7 & wgt <= 5.0)) |
+        (gest_age == 43 & (wgt >= 1.8 & wgt <= 5.0)) |
+        (gest_age == 44 & (wgt >= 1.8 & wgt <= 5.0)) |
+        (gest_age == 45 & (wgt >= 1.8 & wgt <= 5.0)) |
+        (gest_age == 46 & (wgt >= 1.8 & wgt <= 5.0)) 
+    ) %>% 
+    arrange(gest_age, wgt)
+```
+
+#### Females
+
+```{r}
+tbl_1 %>% 
+    pivot_wider(names_from = gest_age, values_from = survival
+    ) %>% 
+    gt::gt(rowname_col = "wgt") %>% 
+    gt::sub_missing(columns = everything(), rows = everything(), missing_text = ""
+    ) %>% 
+    gt::tab_header(
+        title = gt::md("**Estimated Gestational Age (weeks)**")) %>% 
+     gt::tab_stubhead(gt::md("**Weight (kgs)**")) %>% 
+    gt::opt_stylize(style = 2)
+```
+
