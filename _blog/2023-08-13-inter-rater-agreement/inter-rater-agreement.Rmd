@@ -1,7 +1,7 @@
 ---
 title: "Inter-Rater Agreement"
 description: |
-  This post demonstrates how the agreement between two raters can be analysed using the  Single Score Intraclass Correlation Coefficient and the Blad-And-Altmam plot.
+  This post demonstrates how the agreement between two raters can be analysed using the Single Score Intraclass Correlation Coefficient and the Blad-And-Altmam plot.
 author:
   - name: Samuel Blay Nguah
 date: 2023-08-13
@@ -24,11 +24,11 @@ df_sonos %>% summarytools::dfSummary(graph.col = F)
 ```
 
 ### Intraclass Correlation Coefficient 
-This is a measure of how the two measures correlate with the various accepted categorizations:
-- Less than 0.40 — Poor.
-- Between 0.40 and 0.59 — Fair.
-- Between 0.60 and 0.74 — Good.
-- Between 0.75 and 1.00 — Excellent.
+This is a statistic for determining the agreement between two numeric measures. The accepted categorizations are:
+- Less than 0.40 — **Poor**.
+- Between 0.40 and 0.59 — **Fair**.
+- Between 0.60 and 0.74 — **Good**.
+- Between 0.75 and 1.00 — **Excellent**.
 
 ```{r}
 df_sonos %>% 
@@ -40,7 +40,7 @@ ICC is rather low.
 
 ### Bland-And_Altman's plot
 
-Next, we draw a Bland-And-Altmans plot
+Next, we draw a Bland-And-Altman's plot. This is a plot of the difference between two numeric measurements and the average. It shows the level of agreement and bias that may exist between the two measures.
 
 ```{r}
 df_sonos <-

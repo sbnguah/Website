@@ -52,7 +52,6 @@ glm1 <-
 
 #### Survival by birth weight and sex 
 
-
 ```{r}
 xx <- 
     glm1 %>% 
