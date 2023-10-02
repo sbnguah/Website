@@ -3,8 +3,12 @@ title: "Home"
 description: |
   Samuel Blay Nguah MD
 output_dir: "docs"
+favicon: images/mylogo.jpg
 theme: sbnguah-theme.css
 navbar:
+  logo:
+    image: images/mylogo.jpg
+    href: https://sbnguah.netlify.app
   right:
     - text: "R Data Viz"
       href: rdataviz.html
