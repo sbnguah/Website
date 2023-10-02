@@ -57,30 +57,30 @@ xx <-
     glm1 %>% 
     ggeffects::ggpredict(terms = c("wt[all]", "sex"))
 
-data.frame(
-    weight = xx$x, 
-    prob = round(xx$predicted*100, 1), 
-    conf_low = round(xx$conf.low*100, 1), 
-    conf_high = round(xx$conf.high*100,1), 
-    sex = xx$group) %>% 
-    pivot_wider(
-        id_cols = weight, 
-        names_from = sex, 
-        values_from = c(prob, conf_low, conf_high)) %>%
-    mutate(
-        `Birth Weight (kgs)` = sprintf(fmt = "%.1f", weight),
-        Female = paste0(
-            sprintf(fmt = "%.1f", prob_Female), " [", 
-            sprintf(fmt = "%.1f", conf_low_Female), " - ", 
-            sprintf(fmt = "%.1f", conf_high_Female), "]"),
-        Male = paste0(
-            sprintf(fmt = "%.1f", prob_Male), " [", 
-            sprintf(fmt = "%.1f", conf_low_Male), " - ", 
-            sprintf(fmt = "%.1f", conf_high_Male), "]")) %>% 
-    select(`Birth Weight (kgs)`, Female, Male) %>% 
-    as_tibble() %>% 
-    DT::datatable(
-        rownames = FALSE)
+# data.frame(
+#     weight = xx$x, 
+#     prob = round(xx$predicted*100, 1), 
+#     conf_low = round(xx$conf.low*100, 1), 
+#     conf_high = round(xx$conf.high*100,1), 
+#     sex = xx$group) %>% 
+#     pivot_wider(
+#         id_cols = weight, 
+#         names_from = sex, 
+#         values_from = c(prob, conf_low, conf_high)) %>%
+#     mutate(
+#         `Birth Weight (kgs)` = sprintf(fmt = "%.1f", weight),
+#         Female = paste0(
+#             sprintf(fmt = "%.1f", prob_Female), " [", 
+#             sprintf(fmt = "%.1f", conf_low_Female), " - ", 
+#             sprintf(fmt = "%.1f", conf_high_Female), "]"),
+#         Male = paste0(
+#             sprintf(fmt = "%.1f", prob_Male), " [", 
+#             sprintf(fmt = "%.1f", conf_low_Male), " - ", 
+#             sprintf(fmt = "%.1f", conf_high_Male), "]")) %>% 
+#     select(`Birth Weight (kgs)`, Female, Male) %>% 
+#     as_tibble() %>% 
+#     DT::datatable(
+#         rownames = FALSE)
 ```
 
 
@@ -110,30 +110,30 @@ xx <-
     glm1 %>% 
     ggeffects::ggpredict(terms = c("gestage[all]", "sex"))
 
-data.frame(
-    gestage = xx$x, 
-    prob = round(xx$predicted*100, 1), 
-    conf_low = round(xx$conf.low*100, 1), 
-    conf_high = round(xx$conf.high*100,1), 
-    sex = xx$group) %>% 
-    pivot_wider(
-        id_cols = gestage, 
-        names_from = sex, 
-        values_from = c(prob, conf_low, conf_high)) %>%
-    mutate(
-        `Gestational Age (weeks)` = sprintf(fmt = "%.1f", gestage),
-        Female = paste0(
-            sprintf(fmt = "%.1f", prob_Female), " [", 
-            sprintf(fmt = "%.1f", conf_low_Female), " - ", 
-            sprintf(fmt = "%.1f", conf_high_Female), "]"),
-        Male = paste0(
-            sprintf(fmt = "%.1f", prob_Male), " [", 
-            sprintf(fmt = "%.1f", conf_low_Male), " - ", 
-            sprintf(fmt = "%.1f", conf_high_Male), "]")) %>% 
-    select(`Gestational Age (weeks)`, Female, Male) %>% 
-    as_tibble() %>% 
-    DT::datatable(
-        rownames = FALSE)
+# data.frame(
+#     gestage = xx$x, 
+#     prob = round(xx$predicted*100, 1), 
+#     conf_low = round(xx$conf.low*100, 1), 
+#     conf_high = round(xx$conf.high*100,1), 
+#     sex = xx$group) %>% 
+#     pivot_wider(
+#         id_cols = gestage, 
+#         names_from = sex, 
+#         values_from = c(prob, conf_low, conf_high)) %>%
+#     mutate(
+#         `Gestational Age (weeks)` = sprintf(fmt = "%.1f", gestage),
+#         Female = paste0(
+#             sprintf(fmt = "%.1f", prob_Female), " [", 
+#             sprintf(fmt = "%.1f", conf_low_Female), " - ", 
+#             sprintf(fmt = "%.1f", conf_high_Female), "]"),
+#         Male = paste0(
+#             sprintf(fmt = "%.1f", prob_Male), " [", 
+#             sprintf(fmt = "%.1f", conf_low_Male), " - ", 
+#             sprintf(fmt = "%.1f", conf_high_Male), "]")) %>% 
+#     select(`Gestational Age (weeks)`, Female, Male) %>% 
+#     as_tibble() %>% 
+#     DT::datatable(
+#         rownames = FALSE)
 ```
 
 
