@@ -3,7 +3,7 @@ title: "Home"
 description: |
   Samuel Blay Nguah MD
 output_dir: "docs"
-favicon: images/mylogo.jpg
+favicon: images/mylogo.ico
 theme: sbnguah-theme.css
 navbar:
   logo:
